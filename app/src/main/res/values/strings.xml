@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FinallyWork</string>
+    <string name="title_home">首页</string>
+    <string name="main_type">分类</string>
+    <string name="main_community">发现</string>
+    <string name="main_cart">购物车</string>
+    <string name="main_user">个人中心</string>
+</resources>

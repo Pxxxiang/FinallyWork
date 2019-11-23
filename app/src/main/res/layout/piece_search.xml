@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/rl_search_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="50dp"
+        android:background="@color/write"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:src="@drawable/icon_search_white" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:background="@drawable/bg1"
+            android:hint="  输入商品名或者店铺名称"
+            android:imeOptions="actionSearch"
+            android:textColor="@color/black3"
+            android:textColorHint="@color/gray_aaaaaa"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_weight="0.1"
+        android:gravity="center_vertical"
+        android:text="取消"
+        android:textColor="@color/write"
+        android:textSize="18sp" />
+
+</LinearLayout>
