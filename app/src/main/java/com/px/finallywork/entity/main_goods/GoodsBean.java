@@ -44,11 +44,13 @@ public class GoodsBean extends BaseBean {
      * 是否被选中
      */
     private boolean isSelected = true;
+
     private int va = 1;
     private Handler handler;
     private TextView textView2;
     private Float price;
     private Float pri;
+    private CheckBox checkBox;
 
 
     public boolean isSelected() {
@@ -58,7 +60,7 @@ public class GoodsBean extends BaseBean {
     @Override
     public void bindHolder(SuperViewHolder holder, Context context) {
 
-        CheckBox checkBox = holder.findViewById(R.id.cb_gov);
+        final CheckBox checkBox = holder.findViewById(R.id.cb_gov);
         checkBox.setChecked(!isSelected);
 
         ImageView imageView = holder.findViewById(R.id.iv_gov);
@@ -122,6 +124,18 @@ public class GoodsBean extends BaseBean {
             }
         });
         numberAddSubView.setValue(getNumber());
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkBox.isChecked()) {
+                    checkBox.setChecked(isSelected());
+                }else {
+                    checkBox.setChecked(false);
+                }
+            }
+        });
+
 //        goodsBean.setCoverPrice(CacheUtils.getString(getContext(),"coverPrice"));
 //        goodsBean.setFigure(CacheUtils.getString(getContext(),"figure"));
 //        goodsBean.setProductId(CacheUtils.getString(getContext(),"name"));

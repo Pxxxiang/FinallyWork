@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,12 +32,35 @@ public class CartFragment extends Fragment {
     private HomeViewPagerAdapter homeViewPagerAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private TextView editText;
+    private LinearLayout cleckAll;
+    private LinearLayout editAll;
 
-    private float totalPrice = 0;
+    private float totalPrice;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_cart, container, false);
+
+        editText = view.findViewById(R.id.tv_shopcart_edit);
+        cleckAll = view.findViewById(R.id.ll_check_all);
+        editAll = view.findViewById(R.id.ll_delete);
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editText.getText().toString().equals("编辑")) {
+                    editText.setText("完成");
+                    editAll.setVisibility(View.VISIBLE);
+                    cleckAll.setVisibility(View.GONE);
+                }else{
+                    editText.setText("编辑");
+                    editAll.setVisibility(View.GONE);
+                    cleckAll.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
         itemList = new ArrayList<>();
         itemList.addAll(BaseBean.goodList);
@@ -50,7 +74,7 @@ public class CartFragment extends Fragment {
         textView.setText("￥"+totalPrice);
 
 //        itemList.add(goodsBean);
-        Log.i("ssssss", BaseBean.goodList.size() + "");
+//        Log.i("ssssss", BaseBean.goodList.size() + "");
         homeViewPagerAdapter = new HomeViewPagerAdapter(getContext(), itemList, null);
         linearLayoutManager = new LinearLayoutManager(getContext());
 

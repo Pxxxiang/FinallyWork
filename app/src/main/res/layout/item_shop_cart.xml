@@ -12,8 +12,9 @@
 
         <CheckBox
             android:id="@+id/cb_gov"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_gravity="center_vertical"
             android:button="@drawable/checkbox_selector"
             android:checked="true"
