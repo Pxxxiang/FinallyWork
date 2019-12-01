@@ -2,6 +2,7 @@ package com.px.finallywork.entity.main_goods;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -14,7 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.px.finallywork.R;
 import com.px.finallywork.entity.BaseBean;
-import com.px.finallywork.utils.CacheUtils;
+import com.px.finallywork.ui.main_cart.CartFragment;
 import com.px.finallywork.utils.Constants;
 
 import org.byteam.superadapter.SuperViewHolder;
@@ -43,25 +44,45 @@ public class GoodsBean extends BaseBean {
     /**
      * 是否被选中
      */
-    private boolean isSelected = true;
-
-    private int va = 1;
-    private Handler handler;
-    private TextView textView2;
-    private Float price;
-    private Float pri;
-    private CheckBox checkBox;
-
+    private boolean isSelected = false;
+    private String result;
 
     public boolean isSelected() {
         return isSelected;
     }
 
-    @Override
-    public void bindHolder(SuperViewHolder holder, Context context) {
+    private Handler handler;
+    private TextView textView2;
+    private float price;
+    private Float singleprice;
+    private CheckBox checkBox;
 
-        final CheckBox checkBox = holder.findViewById(R.id.cb_gov);
-        checkBox.setChecked(!isSelected);
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public static int CHECK_ALL = 0x003;
+    public static int UNCHECK_ALL = 0x004;
+    public static int QUANJU_CHECK_ADD = 1;
+    public static int QUANJU_CHECK_SUB = 2;
+    public static int ITEM_CHECK = 0;
+    private Bundle bundle1;
+    private Bundle bundle2;
+    private Message message1;
+    private Message message2;
+    private Message message3;
+    private Message message4;
+
+    public void setNumber(int number) {
+        if (number>=1) {
+            this.number = number;
+        }else {
+            this.number = 1;
+        }
+    }
+
+    @Override
+    public void bindHolder(SuperViewHolder holder, final Context context) {
 
         ImageView imageView = holder.findViewById(R.id.iv_gov);
         ImageOptions options = new ImageOptions.Builder().setFadeIn(true).build();
@@ -91,50 +112,80 @@ public class GoodsBean extends BaseBean {
         TextView textView = holder.findViewById(R.id.tv_desc_gov);
         textView.setText(getName());
 
-        pri = Float.parseFloat(getCoverPrice());
+        singleprice = Float.parseFloat(getCoverPrice());
         textView2 = holder.findViewById(R.id.tv_price_gov);
-        price = pri *getNumber();
-        textView2.setText(price +"");
-        handler = new Handler(){
+        price = singleprice * getNumber();
+        result = String.format("%.2f",price);
+        textView2.setText("￥" + result);
+        handler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                Log.i("priceChange","价格变化了");
-                price = pri *getNumber();
-                textView2.setText(price+"");
-                handler.removeMessages(0);
-
+                if (msg.what == ITEM_CHECK) {
+//                    Log.i("priceChange", "价格变化了");
+                    price = singleprice * getNumber();
+                    result = String.format("%.2f",price);
+                    textView2.setText("￥" + result);
+                    handler.removeMessages(ITEM_CHECK);
+                }
             }
         };
-        NumberAddSubView numberAddSubView = holder.findViewById(R.id.numberAddSubView);
 
+        NumberAddSubView numberAddSubView = holder.findViewById(R.id.numberAddSubView);
         numberAddSubView.setOnNumberChangeListener(new NumberAddSubView.OnNumberChangeListener() {
             @Override
             public void addNumber(View view, int value) {
-                va = value;
                 setNumber(value);
-                Log.i("添加地数量: ", value + "");
-                handler.sendEmptyMessage(0);
+//                Log.i("添加地数量: ", value + "");
+                message1 = new Message();
+                bundle1 = new Bundle();
+                bundle1.putFloat("Singleprice", getSingleprice());
+                message1.setData(bundle1);
+                message1.what = QUANJU_CHECK_ADD;
+
+                handler.sendEmptyMessage(ITEM_CHECK);
+                CartFragment.getHandler().sendMessage(message1);
             }
 
             @Override
             public void subNumner(View view, int value) {
-                setNumber(value);
-                handler.sendEmptyMessage(0);
+
+                    setNumber(value);
+                    message2 = new Message();
+                    bundle2 = new Bundle();
+                    bundle2.putFloat("Singleprice", getSingleprice());
+                    message2.what = QUANJU_CHECK_SUB;
+                    message2.setData(bundle2);
+
+                    handler.sendEmptyMessage(ITEM_CHECK);
+                    CartFragment.getHandler().sendMessage(message2);
             }
         });
         numberAddSubView.setValue(getNumber());
 
+        checkBox = holder.findViewById(R.id.cb_gov);
+        checkBox.setChecked(isSelected);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkBox.isChecked()) {
-                    checkBox.setChecked(isSelected());
-                }else {
-                    checkBox.setChecked(false);
+                    setSelected(true);
+                    checkBox.setChecked(isSelected);
+                    message3 = new Message();
+                    message3.what=UNCHECK_ALL;
+                    Log.i("UNCHECK_ALL", "onClick: 我是3");
+                    CartFragment.getHandler().sendMessage(message3);
+                } else {
+                    setSelected(false);
+                    checkBox.setChecked(isSelected);
+                    message3 = new Message();
+                    message3.what=UNCHECK_ALL;
+                    Log.i("UNCHECK_ALL", "onClick: 我是2");
+                    CartFragment.getHandler().sendMessage(message3);
                 }
             }
         });
+
 
 //        goodsBean.setCoverPrice(CacheUtils.getString(getContext(),"coverPrice"));
 //        goodsBean.setFigure(CacheUtils.getString(getContext(),"figure"));

@@ -18,6 +18,8 @@ public abstract class BaseBean implements ItemInterface {
     public static List<String> pid = new ArrayList<>();
     public static List<Integer> num = new ArrayList<>();
     public static List<Float> singlePrice = new ArrayList<>();
+    public static float ttPrice;
+
 
     @Override
     public abstract void bindHolder(SuperViewHolder holder, Context context);
