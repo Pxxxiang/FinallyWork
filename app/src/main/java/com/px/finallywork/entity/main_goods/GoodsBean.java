@@ -30,6 +30,16 @@ import lombok.EqualsAndHashCode;
 @Data
 public class GoodsBean extends BaseBean {
 
+    public GoodsBean(String coverPrice, String figure, String name, String productId) {
+        this.coverPrice = coverPrice;
+        this.figure = figure;
+        this.name = name;
+        this.productId = productId;
+    }
+
+    public GoodsBean() {
+    }
+
     //价格
     private String coverPrice;
     //图片

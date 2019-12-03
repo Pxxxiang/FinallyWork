@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import org.byteam.superadapter.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import static com.px.finallywork.entity.main_goods.GoodsBean.QUANJU_CHECK_ADD;
 import static com.px.finallywork.entity.main_goods.GoodsBean.QUANJU_CHECK_SUB;
@@ -57,8 +59,8 @@ public class CartFragment extends Fragment {
 
         editText = view.findViewById(R.id.tv_shopcart_edit);
         cleckAll = view.findViewById(R.id.ll_check_all);
-
         editAll = view.findViewById(R.id.ll_delete);
+        Button btn_delete = view.findViewById(R.id.btn_delete);
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +81,32 @@ public class CartFragment extends Fragment {
         checkBox = view.findViewById(R.id.checkbox_all);
         cbAll.setChecked(isSelected);
         checkBox.setChecked(isSelected);
+        cbAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cbAll.isChecked()) {
+                    setSelected(true);
+                    cbAll.setChecked(isSelected);
+                    checkBox.setChecked(isSelected);
+                    for (ItemInterface it : BaseBean.goodList) {
+                        GoodsBean goodsBean;
+                        goodsBean = (GoodsBean) it;
+                        goodsBean.setSelected(true);
+                    }
+                    homeViewPagerAdapter.notifyDataSetChanged();
+                } else {
+                    setSelected(false);
+                    cbAll.setChecked(isSelected);
+                    checkBox.setChecked(isSelected);
+                    for (ItemInterface it : BaseBean.goodList) {
+                        GoodsBean goodsBean;
+                        goodsBean = (GoodsBean) it;
+                        goodsBean.setSelected(false);
+                    }
+                    homeViewPagerAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,8 +134,8 @@ public class CartFragment extends Fragment {
             }
         });
 
-        List<ItemInterface> itemList = new ArrayList<>();
-        itemList.addAll(BaseBean.goodList);
+//        List<ItemInterface> itemList = new ArrayList<>();
+//        itemList.addAll(BaseBean.goodList);
         RecyclerView recyclerView = view.findViewById(R.id.main_cart_re);
         textView = view.findViewById(R.id.tv_shopcart_total);
 
@@ -172,11 +200,33 @@ public class CartFragment extends Fragment {
         textView.setText("￥" + result);
 
 
-        homeViewPagerAdapter = new HomeViewPagerAdapter(getContext(), itemList, null);
+        homeViewPagerAdapter = new HomeViewPagerAdapter(getContext(), BaseBean.goodList, null);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(homeViewPagerAdapter);
+        //删除事件
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ListIterator<ItemInterface> itemInterfaceListIterator = BaseBean.goodList.listIterator();
+
+                while (itemInterfaceListIterator.hasNext()){
+                    ItemInterface next = itemInterfaceListIterator.next();
+                    Log.i("state123", "onClick: "+((GoodsBean)next).isSelected());
+                    if (((GoodsBean)next).isSelected()==true) {
+                        itemInterfaceListIterator.remove();
+                    }
+                }
+                setSelected(false);
+                cbAll.setChecked(isSelected);
+                checkBox.setChecked(isSelected);
+                homeViewPagerAdapter.notifyDataSetChanged();
+            }
+        });
+
+
 
         homeViewPagerAdapter.notifyDataSetChanged();
 

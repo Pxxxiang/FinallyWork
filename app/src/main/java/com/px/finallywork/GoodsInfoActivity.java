@@ -4,19 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,9 +25,7 @@ import com.bumptech.glide.Glide;
 import com.px.finallywork.entity.BaseBean;
 import com.px.finallywork.entity.main_goods.GoodsBean;
 import com.px.finallywork.entity.main_goods.NumberAddSubView;
-import com.px.finallywork.utils.CacheUtils;
 import com.px.finallywork.utils.Constants;
-import com.px.finallywork.utils.ItemInterface;
 import com.px.finallywork.utils.VirtualkeyboardHeight;
 
 import org.xutils.image.ImageOptions;
@@ -260,14 +255,14 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void addNumber(View view, int value) {
                 va = value;
-                goodsBean.setNumber(value);
+//                goodsBean.setNumber(value);
                 Log.i("添加地数量: ", value + "");
             }
 
             @Override
             public void subNumner(View view, int value) {
-                goodsBean.setNumber(value);
-
+//                goodsBean.setNumber(value);
+                va = value;
             }
         });
 
@@ -285,35 +280,32 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
                 //添加购物车
 
                 String id = goodsBean.getProductId();
-                int number = va + goodsBean.getNumber();
 
-                Float price = Float.parseFloat(goodsBean.getCoverPrice());
                 if (BaseBean.goodList.isEmpty() && BaseBean.pid.isEmpty()) {
                     goodsBean.setNumber(va);
                     BaseBean.goodList.add(goodsBean);
                     BaseBean.pid.add(goodsBean.getProductId());
                     BaseBean.num.add(va);
-                    BaseBean.singlePrice.add(price);
 //                    System.out.println("为空 我加了一个");
                     Log.i("123123123", "为空 我加了一个");
                 } else {
-                    if (BaseBean.pid.contains(id)) {
+                    if (BaseBean.pid.contains(id)) {//添加已经存在的
                         for (int i = 0; i < BaseBean.goodList.size(); i++) {
                             if (BaseBean.pid.get(i).equals(id)) {
-                                System.out.println(i);
-                                goodsBean.setNumber(number);
-                                BaseBean.goodList.set(i, goodsBean);
-                                BaseBean.num.set(i,number);
-                                Log.i("123123123", "我修改了:" + i);
-                                Log.i("123123123", "我修改了:" + BaseBean.goodList.size());
+                                GoodsBean g = (GoodsBean) BaseBean.goodList.get(i);
+                                g.setNumber(va+g.getNumber());
+                                Log.i("123123123", "有:" + g.getNumber());
+                                BaseBean.goodList.set(i, g);
+                                BaseBean.num.set(i, g.getNumber());
+                                Log.i("123123123", "我修改了第:" + i);
+                                Log.i("123123123", "一共有几个:" + BaseBean.num.get(i)+"===");
                             }
                         }
-                    } else {
+                    } else {//添加不存在的
                         goodsBean.setNumber(va);
                         BaseBean.goodList.add(goodsBean);
                         BaseBean.pid.add(goodsBean.getProductId());
                         BaseBean.num.add(va);
-                        BaseBean.singlePrice.add(price);
 //                            System.out.println("不为空 我添加了"+j);
                         Log.i("123123123", "不为空 我添加了新的:");
                     }

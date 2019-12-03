@@ -1,35 +1,106 @@
 package com.px.finallywork.ui.main_type;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.flyco.tablayout.SegmentTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.px.finallywork.R;
 
-public class TypeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    private TypeViewModel typeViewModel;
+public class TypeFragment extends BaseFragment {
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        typeViewModel =
-                ViewModelProviders.of(this).get(TypeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_main_type, container, false);
-//        final TextView textView = root.findViewById(R.id.text_dashboard);
-//        typeViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-        return root;
+    private SegmentTabLayout segmentTabLayout;
+    private ImageView iv_type_search;
+    private FrameLayout fl_type;
+    private List<BaseFragment> fragmentList;
+    private Fragment tempFragment;
+    public ListFragment listFragment;
+    public TagFragment tagFragment;
+
+    @Override
+    public View initView() {
+        View view = View.inflate(mContext, R.layout.fragment_main_type, null);
+        segmentTabLayout = view.findViewById(R.id.tl_1);
+        iv_type_search = view.findViewById(R.id.iv_type_search);
+        fl_type = view.findViewById(R.id.fl_type);
+
+        initFragment();
+
+        return view;
+
     }
+
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        initFragment();
+
+        String[] titles = {"分类", "标签"};
+
+        segmentTabLayout.setTabData(titles);
+
+        segmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                switchFragment(tempFragment, fragmentList.get(position));
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        switchFragment(tempFragment, fragmentList.get(0));
+    }
+
+    public void switchFragment(Fragment fromFragment, BaseFragment nextFragment) {
+        if (tempFragment != nextFragment) {
+            tempFragment = nextFragment;
+            if (nextFragment != null) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                //判断nextFragment是否添加
+                if (!nextFragment.isAdded()) {
+                    //隐藏当前Fragment
+                    if (fromFragment != null) {
+                        transaction.hide(fromFragment);
+                    }
+
+                    transaction.add(R.id.fl_type, nextFragment, "tagFragment").commit();
+                } else {
+                    //隐藏当前Fragment
+                    if (fromFragment != null) {
+                        transaction.hide(fromFragment);
+                    }
+                    transaction.show(nextFragment).commit();
+                }
+            }
+        }
+    }
+
+    private void initFragment() {
+        fragmentList = new ArrayList<>();
+        listFragment = new ListFragment();
+        tagFragment = new TagFragment();
+
+        fragmentList.add(listFragment);
+        fragmentList.add(tagFragment);
+
+        switchFragment(tempFragment, fragmentList.get(0));
+    }
+
 }
