@@ -79,7 +79,7 @@ public class CartFragment extends Fragment {
         cbAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalPrice=0;
+                totalPrice = 0;
                 if (cbAll.isChecked()) {
                     setSelected(true);
                     cbAll.setChecked(isSelected);
@@ -90,7 +90,7 @@ public class CartFragment extends Fragment {
                         goodsBean.setSelected(true);
                         float price = Float.parseFloat(goodsBean.getCoverPrice());
                         float num = goodsBean.getNumber();
-                        Log.i("totalpppp", "onClick: total"+totalPrice);
+                        Log.i("totalpppp", "onClick: total" + totalPrice);
                         totalPrice += price * num;
                         result = String.format("%.2f", totalPrice);
                         textView.setText("￥" + result);
@@ -116,7 +116,7 @@ public class CartFragment extends Fragment {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalPrice=0;
+                totalPrice = 0;
                 if (checkBox.isChecked()) {
                     setSelected(true);
                     cbAll.setChecked(isSelected);
@@ -184,9 +184,23 @@ public class CartFragment extends Fragment {
                         itemInterfaceListIterator.remove();
                     }
                 }
-                setSelected(false);
-                cbAll.setChecked(isSelected);
-                checkBox.setChecked(isSelected);
+                //重新计算价格
+                totalPrice = 0;
+                for (ItemInterface it : BaseBean.goodList) {
+                    GoodsBean goodsBean;
+                    goodsBean = (GoodsBean) it;
+                    if (goodsBean.isSelected()) {
+                        float price = Float.parseFloat(goodsBean.getCoverPrice());
+                        float num = goodsBean.getNumber();
+                        totalPrice += price * num;
+                    }
+                    result = String.format("%.2f", totalPrice);
+                    textView.setText("￥" + result);
+                }
+                //全部取消选定
+                Message message3 = new Message();
+                message3.what = UNCHECK_ALL;
+                CartFragment.getHandler().sendMessage(message3);
                 homeViewPagerAdapter.notifyDataSetChanged();
             }
         });
@@ -235,22 +249,30 @@ public class CartFragment extends Fragment {
                 super.handleMessage(msg);
                 Log.i("UNCHECK_ALL", "handleMessage: " + msg.what);
                 if (msg.what == QUANJU_CHECK_ADD) {
-                    float price = msg.getData().getFloat("Singleprice");
-                    float num = msg.getData().getInt("num");
-                    totalPrice += price * num;
-
+                    totalPrice = 0;
+                    for (ItemInterface it : BaseBean.goodList) {
+                        GoodsBean goodsBean;
+                        goodsBean = (GoodsBean) it;
+                        if (goodsBean.isSelected()) {
+                            float price = Float.parseFloat(goodsBean.getCoverPrice());
+                            float num = goodsBean.getNumber();
+                            totalPrice += price * num;
+                        }
+                    }
                     handler.removeMessages(QUANJU_CHECK_ADD);
                     result = String.format("%.2f", totalPrice);
                     textView.setText("￥" + result);
                 } else if (msg.what == QUANJU_CHECK_SUB) {
-                    float price = msg.getData().getFloat("Singleprice");
-                    float num = msg.getData().getInt("num");
-                    totalPrice -= price * num;
-                    if (totalPrice <= 0) {
-                        totalPrice = 0;
+                    totalPrice = 0;
+                    for (ItemInterface it : BaseBean.goodList) {
+                        GoodsBean goodsBean;
+                        goodsBean = (GoodsBean) it;
+                        if (goodsBean.isSelected()) {
+                            float price = Float.parseFloat(goodsBean.getCoverPrice());
+                            float num = goodsBean.getNumber();
+                            totalPrice += price * num;
+                        }
                     }
-                    Log.i("QUANJU_CHECK", "handleMessage:QUANJU_CHECK_SUB price" + totalPrice);
-
                     handler.removeMessages(QUANJU_CHECK_SUB);
                     result = String.format("%.2f", totalPrice);
                     textView.setText("￥" + result);
@@ -275,17 +297,15 @@ public class CartFragment extends Fragment {
                     if (BaseBean.goodList.isEmpty()) {
                         setSelected(false);
                     }
-                    cbAll.setChecked(isSelected);
-                    checkBox.setChecked(isSelected);
                     for (ItemInterface it : BaseBean.goodList) {
                         GoodsBean goodsBean;
                         goodsBean = (GoodsBean) it;
                         if (!goodsBean.isSelected()) {
                             setSelected(false);
-                            cbAll.setChecked(isSelected);
-                            checkBox.setChecked(isSelected);
                         }
                     }
+                    cbAll.setChecked(isSelected);
+                    checkBox.setChecked(isSelected);
                     homeViewPagerAdapter.notifyDataSetChanged();
                     handler.removeMessages(UNCHECK_ALL);
                 }

@@ -166,7 +166,7 @@ public class GoodsBean extends BaseBean {
                 message1 = new Message();
                 bundle1 = new Bundle();
                 bundle1.putFloat("Singleprice", getSingleprice());
-                bundle1.putInt("num", 1);
+                bundle1.putInt("num", getNumber());
                 message1.setData(bundle1);
                 message1.what = QUANJU_CHECK_ADD;
 //
@@ -180,7 +180,7 @@ public class GoodsBean extends BaseBean {
                 message2 = new Message();
                 bundle2 = new Bundle();
                 bundle2.putFloat("Singleprice", getSingleprice());
-                bundle1.putInt("num", 1);
+                bundle2.putInt("num", getNumber());
                 message2.what = QUANJU_CHECK_SUB;
                 message2.setData(bundle2);
 //
