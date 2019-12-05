@@ -25,7 +25,6 @@ public class HomeViewPagerAdapter extends SuperAdapter<ItemInterface> {
     public HomeViewPagerAdapter(Context context, List<ItemInterface> items, IMulItemViewType<ItemInterface> mulItemViewType) {
         super(context, items, mulItemViewType);
         this.list = items;
-        System.out.println(items.size()+"===================");
     }
 
     @Override
@@ -39,7 +38,6 @@ public class HomeViewPagerAdapter extends SuperAdapter<ItemInterface> {
         return new IMulItemViewType<ItemInterface>() {
             @Override
             public int getViewTypeCount() {
-                System.out.println("7："+HomeViewPagerAdapter.super.getViewTypeCount());
                 return HomeViewPagerAdapter.super.getViewTypeCount()+1;
             }
 

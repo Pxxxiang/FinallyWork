@@ -47,7 +47,6 @@ public class BannerViewPagerAdapter extends SuperAdapter<ItemInterface> {
     public void onBindViewHolder(SuperViewHolder holder, final int position) {
 
         ImageView imageView = holder.findViewById(R.id.banner_img);
-        System.out.println("123456890-098765:" + position % list.size());
         Glide.with(getContext()).load(list.get(position % list.size())).into(imageView);
         try{
             imageView.setOnClickListener(new View.OnClickListener() {

@@ -37,7 +37,7 @@ public class ChannelInfo extends BaseBean {
 
         ImageView imageView = holder.findViewById(R.id.channe_img);
         ImageOptions options = new ImageOptions.Builder().setFadeIn(true).build();
-        x.image().bind(imageView, Constants.BASE_URl_IMAGE+getImage(), options, new Callback.CacheCallback<Drawable>() {
+        x.image().bind(imageView, Constants.BASE_URl_IMAGE + getImage(), options, new Callback.CacheCallback<Drawable>() {
             @Override
             public boolean onCache(Drawable result) {
                 return true;

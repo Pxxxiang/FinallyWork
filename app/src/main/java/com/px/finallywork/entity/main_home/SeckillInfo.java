@@ -46,26 +46,13 @@ public class SeckillInfo extends BaseBean {
         List<ItemInterface> itemList = new ArrayList<>();
         textView = holder.findViewById(R.id.sec_time);
         //textView的倒计时设置
-        dt = Integer.parseInt(getEndTime()) - Integer.parseInt(getStartTime());
-        handler = new Handler() {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-
-                dt = dt - 1000;
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-                String time = format.format(new Date(dt));
-                textView.setText(time);
-//                Log.i("handle zhi x ing", "wo zhi xin g le "+ dt);
-                handler.removeMessages(0);
-                handler.sendEmptyMessageDelayed(0, 1000);
-                if (dt <= 0) {
-                    handler.removeCallbacksAndMessages(null);
-                }
-            }
-        };
-//        Log.i("handle invoke", "wo chu shi hua le");
+        if (handler==null) {
+            dt = Integer.parseInt(getEndTime()) - Integer.parseInt(getStartTime());
+            sendHandler();
+        }
         handler.sendEmptyMessageDelayed(0, 1000);
+
+
 
         MiaoShaItemList miaoShaItemList = new MiaoShaItemList();
         miaoShaItemList.setList(getList());
@@ -80,6 +67,25 @@ public class SeckillInfo extends BaseBean {
         recyclerView.setLayoutManager(layoutManager);
 
         homeViewPagerAdapter.notifyDataSetChanged();
+    }
+
+    private void sendHandler() {
+        handler = new Handler() {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dt = dt - 1000;
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                String time = format.format(new Date(dt));
+                textView.setText(time);
+//                Log.i("handle zhi x ing", "wo zhi xin g le "+ dt);
+                handler.removeMessages(0);
+                handler.sendEmptyMessageDelayed(0, 1000);
+                if (dt <= 0) {
+                    handler.removeCallbacksAndMessages(null);
+                }
+            }
+        };
     }
 
     @Override

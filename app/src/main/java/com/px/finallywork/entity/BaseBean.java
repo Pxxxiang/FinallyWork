@@ -15,9 +15,6 @@ import lombok.Data;
 public abstract class BaseBean implements ItemInterface {
     public int viewType;
     public static List<ItemInterface> goodList = new ArrayList<>();
-    public static List<String> pid = new ArrayList<>();
-    public static List<Integer> num = new ArrayList<>();
-
 
     @Override
     public abstract void bindHolder(SuperViewHolder holder, Context context);
@@ -25,6 +22,8 @@ public abstract class BaseBean implements ItemInterface {
 
     @Override
     public abstract int getLayoutId();
+
+
 
 
 }

@@ -81,7 +81,6 @@ public class BannerInfoL extends BaseBean {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     i = layoutManager.findFirstVisibleItemPosition() % imageList.size();
                     bannerIndicator.setPosition(i);
-//                    System.out.println(layoutManager.findFirstVisibleItemPosition() + "===========" + i + "+++++++++" + imageList.size());
                 }
             }
         });

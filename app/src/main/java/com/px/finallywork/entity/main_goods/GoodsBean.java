@@ -23,6 +23,8 @@ import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.Objects;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,6 +37,20 @@ public class GoodsBean extends BaseBean {
         this.figure = figure;
         this.name = name;
         this.productId = productId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        GoodsBean goodsBean = (GoodsBean) o;
+        return productId.equals(goodsBean.productId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), productId);
     }
 
     public GoodsBean() {
@@ -84,9 +100,9 @@ public class GoodsBean extends BaseBean {
     private Message message4;
 
     public void setNumber(int number) {
-        if (number>=1) {
+        if (number >= 1) {
             this.number = number;
-        }else {
+        } else {
             this.number = 1;
         }
     }
@@ -125,7 +141,7 @@ public class GoodsBean extends BaseBean {
         singleprice = Float.parseFloat(getCoverPrice());
         textView2 = holder.findViewById(R.id.tv_price_gov);
         price = singleprice * getNumber();
-        result = String.format("%.2f",price);
+        result = String.format("%.2f", price);
         textView2.setText("￥" + result);
         handler = new Handler() {
             @Override
@@ -134,7 +150,7 @@ public class GoodsBean extends BaseBean {
                 if (msg.what == ITEM_CHECK) {
 //                    Log.i("priceChange", "价格变化了");
                     price = singleprice * getNumber();
-                    result = String.format("%.2f",price);
+                    result = String.format("%.2f", price);
                     textView2.setText("￥" + result);
                     handler.removeMessages(ITEM_CHECK);
                 }
@@ -150,25 +166,26 @@ public class GoodsBean extends BaseBean {
                 message1 = new Message();
                 bundle1 = new Bundle();
                 bundle1.putFloat("Singleprice", getSingleprice());
+                bundle1.putInt("num", 1);
                 message1.setData(bundle1);
                 message1.what = QUANJU_CHECK_ADD;
-
+//
                 handler.sendEmptyMessage(ITEM_CHECK);
                 CartFragment.getHandler().sendMessage(message1);
             }
 
             @Override
             public void subNumner(View view, int value) {
-
-                    setNumber(value);
-                    message2 = new Message();
-                    bundle2 = new Bundle();
-                    bundle2.putFloat("Singleprice", getSingleprice());
-                    message2.what = QUANJU_CHECK_SUB;
-                    message2.setData(bundle2);
-
-                    handler.sendEmptyMessage(ITEM_CHECK);
-                    CartFragment.getHandler().sendMessage(message2);
+                setNumber(value);
+                message2 = new Message();
+                bundle2 = new Bundle();
+                bundle2.putFloat("Singleprice", getSingleprice());
+                bundle1.putInt("num", 1);
+                message2.what = QUANJU_CHECK_SUB;
+                message2.setData(bundle2);
+//
+                handler.sendEmptyMessage(ITEM_CHECK);
+                CartFragment.getHandler().sendMessage(message2);
             }
         });
         numberAddSubView.setValue(getNumber());
@@ -178,20 +195,39 @@ public class GoodsBean extends BaseBean {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (checkBox.isChecked()) {
                     setSelected(true);
                     checkBox.setChecked(isSelected);
                     message3 = new Message();
-                    message3.what=UNCHECK_ALL;
-                    Log.i("UNCHECK_ALL", "onClick: 我是3");
+                    message3.what = CHECK_ALL;
                     CartFragment.getHandler().sendMessage(message3);
+
+                    message1 = new Message();
+                    bundle1 = new Bundle();
+                    bundle1.putFloat("Singleprice", getSingleprice());
+                    bundle1.putInt("num", getNumber());
+                    message1.setData(bundle1);
+                    message1.what = QUANJU_CHECK_ADD;
+
+                    handler.sendEmptyMessage(ITEM_CHECK);
+                    CartFragment.getHandler().sendMessage(message1);
                 } else {
                     setSelected(false);
                     checkBox.setChecked(isSelected);
                     message3 = new Message();
-                    message3.what=UNCHECK_ALL;
-                    Log.i("UNCHECK_ALL", "onClick: 我是2");
+                    message3.what = UNCHECK_ALL;
                     CartFragment.getHandler().sendMessage(message3);
+
+                    message2 = new Message();
+                    bundle2 = new Bundle();
+                    bundle2.putFloat("Singleprice", getSingleprice());
+                    bundle2.putInt("num", getNumber());
+                    message2.what = QUANJU_CHECK_SUB;
+                    message2.setData(bundle2);
+
+                    handler.sendEmptyMessage(ITEM_CHECK);
+                    CartFragment.getHandler().sendMessage(message2);
                 }
             }
         });

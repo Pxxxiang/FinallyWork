@@ -5,31 +5,31 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/main_home">
 
-    <fragment
+    <BaseFragement
         android:id="@+id/main_home"
         android:name="com.px.finallywork.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_main_home"/>
 
-    <fragment
+    <BaseFragement
         android:id="@+id/main_type"
         android:name="com.px.finallywork.ui.main_type.TypeFragment"
         android:label="@string/main_type"
         tools:layout="@layout/fragment_main_type"/>
 
-    <fragment
+    <BaseFragement
         android:id="@+id/main_community"
         android:name="com.px.finallywork.ui.main_community.CommunityFragment"
         android:label="@string/main_community"
         tools:layout="@layout/fragment_main_community"/>
 
-    <fragment
+    <BaseFragement
         android:id="@+id/main_cart"
         android:name="com.px.finallywork.ui.main_cart.CartFragment"
         android:label="@string/main_cart"
         tools:layout="@layout/fragment_main_cart"/>
 
-    <fragment
+    <BaseFragement
         android:id="@+id/main_user"
         android:name="com.px.finallywork.ui.main_user.UserFragment"
         android:label="@string/main_user"

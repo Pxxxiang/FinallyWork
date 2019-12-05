@@ -34,6 +34,7 @@ public class HotInfo extends BaseBean {
     private String productId;
 
     private transient Context contexts;
+
     @Override
     public void bindHolder(SuperViewHolder holder, Context context) {
         TextView textView = holder.findViewById(R.id.hot_title);
@@ -43,7 +44,7 @@ public class HotInfo extends BaseBean {
 
 
         textView.setText(getName());
-        textView2.setText("￥"+getCoverPrice());
+        textView2.setText("￥" + getCoverPrice());
 
         ImageView imageView = holder.findViewById(R.id.hot_img);
         ImageOptions options = new ImageOptions.Builder().setFadeIn(true).build();
@@ -72,7 +73,7 @@ public class HotInfo extends BaseBean {
         holder.setOnClickListener(R.id.hot_info_item, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(contexts,"秒杀="+ getProductId(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexts, "秒杀=" + getProductId(), Toast.LENGTH_SHORT).show();
                 sendGoodInfoToGoodActivity(contexts);
             }
         });

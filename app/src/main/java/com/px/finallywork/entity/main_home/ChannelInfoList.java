@@ -31,10 +31,10 @@ public class ChannelInfoList extends BaseBean {
 
         List<ItemInterface> itemList = new ArrayList<>();
         itemList.addAll(channelInfo);
-        HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(context,itemList,null);
+        HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(context, itemList, null);
 
         RecyclerView recyclerView = holder.findViewById(R.id.channe_re);
-        GridLayoutManager layoutManager = new GridLayoutManager(context,5);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, 5);
 //        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
         recyclerView.setAdapter(homeViewPagerAdapter);

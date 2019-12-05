@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +40,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private List<ItemInterface> itemList;
+    private List<ItemInterface> itemList = new ArrayList<>();
     private HomeViewPagerAdapter homeViewPagerAdapter;
     @ViewInject(R.id.recycleView)
     private RecyclerView recyclerView;
@@ -47,28 +48,30 @@ public class HomeFragment extends Fragment {
     @ViewInject(R.id.home_top)
     private ImageView imageView;
 
-    private int distance;
-
-    private boolean visible = true;
+//    private int distance;
+//
+//    private boolean visible = true;
     private LinearLayoutManager linearLayoutManager;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initData();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        itemList = new ArrayList<>();
-        initData();
-//        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
         x.view().inject(this, view);
         homeViewPagerAdapter = new HomeViewPagerAdapter(getContext(), itemList, null);
-//        Log.i("size", itemList.size() + "");
+
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setAdapter(homeViewPagerAdapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-//置顶显示
+        //置顶显示
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView re, int dx, int dy) {
@@ -105,13 +108,10 @@ public class HomeFragment extends Fragment {
         String url = Constants.HOME_URL;
 
         RequestParams params = new RequestParams(url);
-//params.setCacheMaxAge(60*1000);
+
         x.http().get(params, new Callback.CacheCallback<String>() {
 
-
-            //            private boolean hasError = false;
             private String re = null;
-
 
             @Override
             public boolean onCache(String result) {
@@ -128,7 +128,6 @@ public class HomeFragment extends Fragment {
                     result = this.re;
                 }
 
-//                Community commodity = new Community();
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
                 Gson gson = gsonBuilder.create();
@@ -160,7 +159,6 @@ public class HomeFragment extends Fragment {
                 itemList.add(seckillInfo);
                 itemList.add(recommendInfoList);
                 itemList.add(hotInfoList);
-
 
                 homeViewPagerAdapter.notifyDataSetChanged();
             }

@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.px.finallywork.entity.BaseBean;
 import com.px.finallywork.entity.main_goods.GoodsBean;
 import com.px.finallywork.entity.main_goods.NumberAddSubView;
+import com.px.finallywork.ui.main_cart.CartFragment;
 import com.px.finallywork.utils.Constants;
 import com.px.finallywork.utils.VirtualkeyboardHeight;
 
@@ -32,6 +33,7 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import static com.px.finallywork.R.id.iv_good_info_image;
+import static com.px.finallywork.entity.main_goods.GoodsBean.UNCHECK_ALL;
 
 
 public class GoodsInfoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -155,12 +157,9 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
             }
             Toast.makeText(this, "更多", Toast.LENGTH_SHORT).show();
         } else if (v == btnGoodInfoAddcart) {
-            // Handle clicks for btnGoodInfoAddcart
-//            GoodsBean goodsBean = new GoodsBean();
-//            sendData();
+
             showPopwindow();
 
-//            Toast.makeText(this, "添加到成功了"+BaseBean.goodList.size(), Toast.LENGTH_SHORT).show();
         } else if (v == tvGoodInfoCallcenter) {
             Toast.makeText(this, "客户中心", Toast.LENGTH_SHORT).show();
         } else if (v == tvGoodInfoCollection) {
@@ -278,38 +277,35 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 window.dismiss();
                 //添加购物车
-
                 String id = goodsBean.getProductId();
-
-                if (BaseBean.goodList.isEmpty() && BaseBean.pid.isEmpty()) {
+                if (BaseBean.goodList.isEmpty()) {
                     goodsBean.setNumber(va);
                     BaseBean.goodList.add(goodsBean);
-                    BaseBean.pid.add(goodsBean.getProductId());
-                    BaseBean.num.add(va);
+//                    BaseBean.num.add(va);
 //                    System.out.println("为空 我加了一个");
                     Log.i("123123123", "为空 我加了一个");
                 } else {
-                    if (BaseBean.pid.contains(id)) {//添加已经存在的
+                    if (BaseBean.goodList.contains(goodsBean)) {//添加已经存在的
                         for (int i = 0; i < BaseBean.goodList.size(); i++) {
-                            if (BaseBean.pid.get(i).equals(id)) {
+                            if (BaseBean.goodList.get(i).equals(goodsBean)) {
                                 GoodsBean g = (GoodsBean) BaseBean.goodList.get(i);
-                                g.setNumber(va+g.getNumber());
+                                g.setNumber(va + g.getNumber());
                                 Log.i("123123123", "有:" + g.getNumber());
                                 BaseBean.goodList.set(i, g);
-                                BaseBean.num.set(i, g.getNumber());
+//                                BaseBean.num.set(i, g.getNumber());
                                 Log.i("123123123", "我修改了第:" + i);
-                                Log.i("123123123", "一共有几个:" + BaseBean.num.get(i)+"===");
+//                                Log.i("123123123", "一共有几个:" + BaseBean.num.get(i) + "===");
                             }
                         }
                     } else {//添加不存在的
                         goodsBean.setNumber(va);
                         BaseBean.goodList.add(goodsBean);
-                        BaseBean.pid.add(goodsBean.getProductId());
-                        BaseBean.num.add(va);
+//                        BaseBean.num.add(va);
 //                            System.out.println("不为空 我添加了"+j);
                         Log.i("123123123", "不为空 我添加了新的:");
                     }
                 }
+
             }
         });
 
