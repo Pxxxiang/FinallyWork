@@ -30,6 +30,7 @@ public class CacheUtils {
 
     }
 
+
     public static void putString(Context context, String key, String value) {
 //        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 //            //MD5加密

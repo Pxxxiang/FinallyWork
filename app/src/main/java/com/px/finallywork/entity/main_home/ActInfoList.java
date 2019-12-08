@@ -31,6 +31,8 @@ public class ActInfoList extends BaseBean {
 
     private List<ActInfo> actInfoList;
 
+    private ArrayList<String> urlList2 = new ArrayList<>();
+
 
     @Override
     public void bindHolder(SuperViewHolder holder, Context context) {
@@ -41,10 +43,11 @@ public class ActInfoList extends BaseBean {
         final List imageList = new ArrayList();
         for (ActInfo b : actInfoList) {
             imageList.add(Constants.BASE_URl_IMAGE + b.getIconUrl());
+            urlList2.add(Constants.BASE_URl_IMAGE + b.getUrl());
         }
         itemList.addAll(imageList);
 
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(context,itemList,R.layout.banner_view);
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(context, itemList, urlList2, R.layout.banner_view);
 
         final RecyclerView recyclerView = holder.findViewById(R.id.act_re);
         final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(context);

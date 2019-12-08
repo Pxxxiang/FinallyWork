@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GoodsInfoActivity"/>
+        <activity android:name=".InfoActivity"/>
+        <activity android:name=".MessageCenterActivity"/>
+        <activity android:name=".SearchActivity"
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

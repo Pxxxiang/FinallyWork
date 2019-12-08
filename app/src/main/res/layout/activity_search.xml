@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,42 +37,28 @@
                 android:layout_margin="5dp"
                 android:src="@drawable/icon_search_white" />
 
-            <TextView
+            <EditText
                 android:id="@+id/et_search"
-                android:layout_width="330dp"
+                android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:background="@drawable/layout_yuan"
+                android:hint="  输入商品名或者店铺名称"
                 android:imeOptions="actionSearch"
-                android:text="请输入商品名称或者商品店铺"
-                android:gravity="center_vertical"
                 android:textColor="@color/black3"
                 android:textColorHint="@color/gray_aaaaaa"
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/button_yuan"
+            android:text="取消" />
+
+
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/home_to_top"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
-        android:layout_marginBottom="52dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/top_btn" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

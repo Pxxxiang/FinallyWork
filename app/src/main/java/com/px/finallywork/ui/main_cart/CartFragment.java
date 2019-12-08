@@ -22,6 +22,7 @@ import com.px.finallywork.R;
 import com.px.finallywork.adapter.HomeViewPagerAdapter;
 import com.px.finallywork.entity.BaseBean;
 import com.px.finallywork.entity.main_goods.GoodsBean;
+import com.px.finallywork.utils.CacheUtils;
 import com.px.finallywork.utils.ItemInterface;
 
 import java.util.ListIterator;
@@ -61,14 +62,26 @@ public class CartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Message message3 = new Message();
-        message3.what = UNCHECK_ALL;
-        CartFragment.getHandler().sendMessage(message3);
+        for (ItemInterface it : BaseBean.goodList) {
+            GoodsBean goodsBean;
+            goodsBean = (GoodsBean) it;
+            if (goodsBean.isSelected()) {
+                Message message3 = new Message();
+                message3.what = UNCHECK_ALL;
+                CartFragment.getHandler().sendMessage(message3);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        CacheUtils.putBoolean(getContext(),"isSelect",isSelected);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_cart, container, false);
-
+        isSelected = CacheUtils.getBoolean(getContext(),"isSelect");
         settingOrFinish(view);
 
         cbAll = view.findViewById(R.id.cb_all);

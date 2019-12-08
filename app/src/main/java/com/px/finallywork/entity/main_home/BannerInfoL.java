@@ -42,22 +42,26 @@ public class BannerInfoL extends BaseBean {
     private SmoothLinearLayoutManager layoutManager;
     private Handler handler;
     private int i;
+    private RecyclerView recyclerView;
+    private ArrayList<String> urlList2 = new ArrayList<>();
+    private BannerIndicator bannerIndicator;
+    private List imageList;
 
     @Override
     public void bindHolder(SuperViewHolder holder, Context context) {
         List<ItemInterface> itemList = new ArrayList<>();
-        final List imageList = new ArrayList();
+        imageList = new ArrayList();
         BannerViewPagerAdapter bannerViewPagerAdapter;
 
         for (BannerInfo b : bannerInfo) {
             imageList.add(Constants.BASE_URl_IMAGE + b.getImage());
+            urlList2.add(Constants.BASE_URl_IMAGE + b.getValue().getUrl());
         }
 
         itemList.addAll(imageList);
-//        itemList2.addAll(bannerInfo);
-        bannerViewPagerAdapter = new BannerViewPagerAdapter(context, itemList, bannerInfo, R.layout.banner_view);
+        bannerViewPagerAdapter = new BannerViewPagerAdapter(context, itemList, urlList2, R.layout.banner_view);
 
-        final RecyclerView recyclerView = holder.findViewById(R.id.vp_pager);
+        recyclerView = holder.findViewById(R.id.vp_pager);
 
         layoutManager = new SmoothLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 //        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -72,7 +76,7 @@ public class BannerInfoL extends BaseBean {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
         //底部红点
-        final BannerIndicator bannerIndicator = holder.findViewById(R.id.indicator);
+        bannerIndicator = holder.findViewById(R.id.indicator);
         bannerIndicator.setNumber(imageList.size());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

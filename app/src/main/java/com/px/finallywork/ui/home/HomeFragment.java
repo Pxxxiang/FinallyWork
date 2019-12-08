@@ -1,11 +1,14 @@
 package com.px.finallywork.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.px.finallywork.R;
+import com.px.finallywork.SearchActivity;
 import com.px.finallywork.adapter.HomeViewPagerAdapter;
 import com.px.finallywork.entity.main_home.ActInfoList;
 import com.px.finallywork.entity.main_home.BannerInfoL;
@@ -45,8 +49,11 @@ public class HomeFragment extends Fragment {
     @ViewInject(R.id.recycleView)
     private RecyclerView recyclerView;
 
-    @ViewInject(R.id.home_top)
+    @ViewInject(R.id.home_to_top)
     private ImageView imageView;
+
+    @ViewInject(R.id.et_search)
+    private TextView editText;
 
 //    private int distance;
 //
@@ -69,9 +76,20 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(homeViewPagerAdapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
         //置顶显示
+        returnTop();
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    private void returnTop() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView re, int dx, int dy) {
@@ -99,7 +117,6 @@ public class HomeFragment extends Fragment {
             }
 
         });
-        return view;
     }
 
     private void initData() {

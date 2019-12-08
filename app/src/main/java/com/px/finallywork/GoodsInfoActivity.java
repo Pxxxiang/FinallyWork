@@ -157,13 +157,11 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
             }
             Toast.makeText(this, "更多", Toast.LENGTH_SHORT).show();
         } else if (v == btnGoodInfoAddcart) {
-
             showPopwindow();
-
         } else if (v == tvGoodInfoCallcenter) {
             Toast.makeText(this, "客户中心", Toast.LENGTH_SHORT).show();
         } else if (v == tvGoodInfoCollection) {
-            Toast.makeText(this, "收藏", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " ", Toast.LENGTH_SHORT).show();
         } else if (v == tvGoodInfoCart) {
             Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
         } else if (v == tv_more_share) {
@@ -171,6 +169,7 @@ public class GoodsInfoActivity extends AppCompatActivity implements View.OnClick
         } else if (v == tv_more_search) {
             Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
         } else if (v == tv_more_home) {
+            finish();
             Toast.makeText(this, "主页面", Toast.LENGTH_SHORT).show();
         }
     }

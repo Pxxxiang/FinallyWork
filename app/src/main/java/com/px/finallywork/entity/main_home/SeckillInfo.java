@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -76,6 +77,7 @@ public class SeckillInfo extends BaseBean {
                 super.handleMessage(msg);
                 dt = dt - 1000;
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 String time = format.format(new Date(dt));
                 textView.setText(time);
 //                Log.i("handle zhi x ing", "wo zhi xin g le "+ dt);

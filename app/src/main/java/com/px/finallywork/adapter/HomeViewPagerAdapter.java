@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewPagerAdapter extends SuperAdapter<ItemInterface> {
-    private List<ItemInterface> list;
+//    private List<ItemInterface> list;
 
     public HomeViewPagerAdapter(Context context, List<ItemInterface> items, IMulItemViewType<ItemInterface> mulItemViewType) {
         super(context, items, mulItemViewType);
-        this.list = items;
+//        this.list = items;
     }
 
     @Override

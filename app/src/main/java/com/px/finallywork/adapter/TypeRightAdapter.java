@@ -162,9 +162,6 @@ public class TypeRightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 final LinearLayout myLinear = new LinearLayout(mContext);
                 lineLp.setMargins(DensityUtil.dip2px( 5), 0, DensityUtil.dip2px( 5), DensityUtil.dip2px( 20));
                 myLinear.setOrientation(LinearLayout.VERTICAL);
-
-
-                //添加到孩子里面
                 linear.addView(myLinear, lineLp);
 
                 //设置图片

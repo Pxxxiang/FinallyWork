@@ -70,9 +70,9 @@ public class NumberAddSubView extends LinearLayout implements View.OnClickListen
         super(context, attrs, defStyleAttr);
         //把布局和当前类形成整体
         View.inflate(context, R.layout.number_add_sub_layout, this);
-        btn_sub = (ImageView) findViewById(R.id.btn_sub);
-        btn_add = (ImageView) findViewById(R.id.btn_add);
-        tv_count = (TextView) findViewById(R.id.tv_count);
+        btn_sub = findViewById(R.id.btn_sub);
+        btn_add = findViewById(R.id.btn_add);
+        tv_count = findViewById(R.id.tv_count);
 
         getValue();
 

@@ -28,7 +28,7 @@ import java.util.Objects;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class GoodsBean extends BaseBean {
 

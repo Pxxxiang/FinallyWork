@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 import com.px.finallywork.GoodsInfoActivity;
+import com.px.finallywork.InfoActivity;
 import com.px.finallywork.R;
 import com.px.finallywork.entity.BaseBean;
 import com.px.finallywork.utils.Constants;
@@ -64,16 +65,15 @@ public class BannerInfo extends BaseBean {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context,"value"+getValue(),Toast.LENGTH_SHORT).show();
-                sendGoodInfoToGoodActivity(context);
+                sendInfoToGoodActivity(context);
             }
         });
 
     }
-    private void sendGoodInfoToGoodActivity(Context context) {
-        Intent intent = new Intent(context, GoodsInfoActivity.class);
-
+    private void sendInfoToGoodActivity(Context context) {
+        Intent intent = new Intent(context, InfoActivity.class);
+        intent.putExtra("url",getValue().getUrl());
         context.startActivity(intent);
-
     }
 
 
