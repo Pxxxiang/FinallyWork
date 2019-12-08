@@ -252,7 +252,7 @@
         android:id="@+id/tv_usercenter"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#fe3f3f"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="10dp"
         android:text="个人中心"
